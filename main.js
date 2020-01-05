@@ -120,16 +120,22 @@ var addTaskLine = function(taskStat){
 
 var logTask = function(taskStat){
 	console.log( "TASK: "+taskStat.taskName+": "+taskStat.elapsedTime);
-	var statDivs = document.getElementById("INFOPANEL").getElementByClassName("taskStatLineDiv");
-	var lastDiv = statDivs[length(statDivs)-1];
-	if(lastDiv.taskStat.taskName == taskStat.taskName){
-		console.log("appending...");
-		lastDiv.taskStat.elapsedTime = lastDiv.taskStat.elapsedTime + taskStat.elapsedTime;
-		lastDiv.taskStat.endTime = taskStat.endTime;
-		taskLog[taskLog.length - 1] = lastDiv.taskStat;
+	var statDivs = document.getElementById("INFOPANEL").getElementsByClassName("taskStatLineDiv");
+	if(statDivs.length == 0){
+			addTaskLine(taskStat);
+			taskStatLog.push(taskStat);
 	} else {
-		addTaskLine(taskStat);
-		taskLog.push(taskStat);
+		var lastDiv = statDivs[statDivs.length-1];
+		if(lastDiv.taskStat.taskName == taskStat.taskName){
+			console.log("appending...");
+			lastDiv.taskStat.elapsedTime = lastDiv.taskStat.elapsedTime + taskStat.elapsedTime;
+			lastDiv.taskStat.endTime = taskStat.endTime;
+			taskStatLog[taskStatLog.length - 1] = lastDiv.taskStat;
+			lastDiv.getElementsByClassName("logTaskEntryTime")[0].value = getElapsedTimeString(lastDiv.taskStat.elapsedTime); 
+		} else {
+			addTaskLine(taskStat);
+			taskStatLog.push(taskStat);
+		}
 	}
 }
 
@@ -180,6 +186,8 @@ function addTaskButton(taskName){
 			this.endTime = (new Date()).getTime();
 			this.elapsedTime = this.elapsedTime + ( this.endTime - this.mostRecentStart )
 			logTask(makeTaskStat(this));
+			document.getElementById("ACTIVETASKLABEL").textContent = "[No Current Task]";
+
 		}
 	}
 	b.activateTask = function(){
@@ -192,6 +200,7 @@ function addTaskButton(taskName){
 		this.startTime = (new Date()).getTime();
 		this.mostRecentStart = this.startTime;
 		this.elapsedTime = 0;
+		document.getElementById("ACTIVETASKLABEL").textContent = "Current Task: "+this.taskName;
 		document.getElementById("TASKTIMER").textContent = "00:00";
 	}
 	b.onclick = function(){
@@ -202,6 +211,8 @@ function addTaskButton(taskName){
 			this.parentElement.parentElement.removeChild(this.parentElement);
 			this.classList.toggle("activeUtilButton");
 			deleteButtonActive = false;
+			document.getElementById("REMOVETASKBUTTON").classList.toggle("activeUtilButton")
+			saveCurrentTaskSet()
 		}
 		if( this.isActiveTask ){
 			this.deactivateTask();
@@ -217,8 +228,9 @@ function addTaskButton(taskName){
 
 addButtonButton.onclick = function(){
 	//this.classList.add("")
-	var taskName = taskButtonNameBox.value;
+	var taskName = taskButtonNameBox.value;	
 	addTaskButton(taskName);
+	saveCurrentTaskSet()
 }
 
 

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" type="text/css" href="style.css" />
+
+
+<style>
+
+
+
+</style>
+
+
+</head>
+<body>
+<div id="maindiv" class="maindiv">
+
+
+<div id="CLOCKPANEL" class="clockPanel">
+<div id="ACTIVETASKLABEL" class="activeTaskLabel">[No Active Task]</div>
+<div id="INNERCLOCKPANEL1" class="innerClockPanel1">
+<div id="INNERCLOCKPANEL2" class="innerClockPanel2">
+	<span id="CLOCK" class="clock timePanel">12:00</span>
+	<span id="TASKTIMER" class="taskTimer timePanel">00:00</span>
+</div>
+</div>
+
+</div>
+
+
+
+<div id="TASKPANEL" class="taskPanel">
+<!--<button id="BUTTON_IEP" class="taskButton inactiveTaskButton"> IEP </button>
+<button id="BUTTON_Organization" class="taskButton inactiveTaskButton"> Organization </button>-->
+
+</div>
+
+<div id="INFOPANEL" class="infoPanel">
+
+</div>
+
+<div id="UTILPANEL" class="utilPanel">
+
+<div id="ADDBUTTONDIV" class="addButtonButtonDiv">
+<input type="text" id="taskButtonNameBox" class="addButtonName inputTextBox">
+<button id="ADDBUTTONBUTTON" class="utilButton"> Add Button </button>
+</div>
+
+
+<select name="downloadSelect">
+  <option value="todayTotals"> Totals for Today</option>
+  <option value="fullData"> Full Dataset </option>
+  <option value="todayFull">Today, Full Dataset </option>
+  <option value="fullTotals"> Totals, all</option>
+</select>
+<button id="DOWNLOADDATE" class="utilButton downloadButton"> Download All (Full) </button>
+
+<button id="REMOVETASKBUTTON" class="utilButton"> DELETE TASK </button>
+
+<div id="RENAMETASKDIV" class="renameTaskdiv">
+<button id="RENAME TASK" class="utilButton"> RENAME TASK </button>
+<input type="text" id="taskButtonReNameBox" class="addButtonName inputTextBox">
+</div>
+
+</div>
+</div>
+
+<script type="text/javascript" src="calcs.js"></script>
+<script type="text/javascript" src="tinycolor.js"></script>
+<script type="text/javascript" src="util.js"></script>
+<script type="text/javascript" src="main.js"></script>
+
+</body>
+</html>

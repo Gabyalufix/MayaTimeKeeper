@@ -1,0 +1,295 @@
+
+
+:root {
+  --white: #ffffff;
+  --black: #000000;
+  --LT4: #f0f1f5;
+  --LT3: #e1e4ea;
+  --LT2: #c3c8d5;
+  --LT1: #a5adc0;
+  --MID: #7883a1;
+  --DK1: #5e6a87;	
+  --DK2: #485167;
+  --DK3: #343b4b;
+  --DK4: #1f232d;
+  --baseBG: #c3c8d5;
+  --consoleGreen: #33FF00;
+  --errorRed: #ce0000;
+  --bsodBlue: #0000ce;
+  --bsodText: #ffffff;
+  --consoleBlack: #111111;
+  --greenLT: #a4ba91;
+  --greenMD: #8aa772;
+  --greenDK: #323f27;
+  --botLT: #e7b2b1;
+  --botMD: #c9514f;
+  --botDK: #621f1e;
+  --hawkLT: #b4b7ba;
+  --hawkMD: #95999d;
+  --hawkDK: #494d50;
+  --bioLT: #a4ba91;
+  --bioMD: #8aa772;
+  --bioDK: #323f27;
+  --engLT: #e7b2b1;
+  --engMD: #c9514f;
+  --engDK: #621f1e;
+  --psyLT: #b9b0cf;
+  --psyMD: #8e81b1;
+  --psyDK: #50446f;
+  --subduedWarnRed:    #e23232;
+  --subduedWarnYellow: #e29532;
+  --subduedWarnGreen:  #1bba21;
+  --bioTextDK: #26301d;
+  --engTextDK: #3b1312;
+  --psyTextDK: #221d2f;
+  
+  --LT4WASHOUT: #e4e5e7;
+  --LT3WASHOUT: #c9cbcf;
+  --LT2WASHOUT: #aeb1b7;
+  
+  --costTextLT: #ffffff;
+  --costTextDK: #000000;
+  
+  --textWarnRed: #AE2626;
+  --textWarnGreen: #179A1B;
+  
+  --washoutGray: #999999;
+}
+
+/*
+===================================================================================================================
+===================================================================================================================
+===================================================================================================================
+-----------------------------------   Default formatting
+===================================================================================================================
+===================================================================================================================
+===================================================================================================================
+*/
+
+h2 , h3, h4, h5, h6, p {
+  padding-top: 1px;
+  padding-right: 1px;
+  padding-bottom: 1px;
+  padding-left: 1px;
+  line-height: 1;
+  margin-bottom: 1px;
+  margin-top: 1px;
+
+}
+
+body {
+  /*overflow: scroll;*/
+  background-color: var(--LT2);
+}
+
+.FOOTER {
+  height:300px;
+
+}
+
+h1 {
+  padding-top: 1px;
+  padding-right: 0px;
+  padding-bottom: 0px;
+  padding-left: 0px;
+  font-family: "Courier New", Courier, monospace;
+  font-weight: bold;
+  font-size: 20px;
+  margin: 0px;
+  line-height: 1;
+}
+h2 {
+  padding-top: 0px;
+  padding-right: 0px;
+  padding-bottom: 0px;
+  padding-left: 0px;
+  font-family: "Courier New", Courier, monospace;
+  font-weight: bold;
+  font-size: 18px;
+  margin: 0px;
+  line-height: 1;
+}
+h5 {
+  font-family: "Courier New", Courier, monospace;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 1;
+  padding-top: 0px;
+  padding-right: 0px;
+  padding-bottom: 0px;
+  padding-left: 0px;
+}
+/*
+===================================================================================================================
+===================================================================================================================
+===================================================================================================================
+-----------------------------------   Default formatting
+===================================================================================================================
+===================================================================================================================
+===================================================================================================================
+*/
+
+
+.maindiv {
+  display: block;
+  width: 100%;
+  max-width: 100vw;
+  /*grid-template-columns: 50% 50%;
+  grid-template-rows: 250px auto;
+  grid-column-gap: 5px;*/
+  padding: 8px 4px 8px 4px;
+  background-color: var(--LT1);
+  min-height: 1900px;
+  /*overflow-y: auto;*/
+}
+
+.addButtonButtonDiv {
+  display: flex;
+  padding: 8px 4px 8px 4px;
+  background-color: var(--LT2);
+  border-style: solid;
+  border-width: 1px;
+  border-color: var(--DK4);
+
+}
+
+.clockPanel {
+  padding: 8px 4px 8px 4px;
+  background-color: var(--LT2);
+  min-height: 100px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: var(--DK4);
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  display: block;
+}
+.activeTaskLabel {
+  text-align: center;
+  font-family: "Courier New", "Courier", Monospace;
+  font-size: 24px;
+  height: 25px;
+}
+
+.clockPanel {
+  padding: 4px 4px 4px 4px;
+  background-color: var(--LT3);
+  min-height: 100px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: var(--DK4);
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+.innerClockPanel1 {
+  border-style: solid;
+  border-width: 1px;
+  border-color: "green";
+  height: 75px;
+  padding: 2.5px;
+  padding: 10px 5px;
+  margin: 0;
+  text-align: center;
+  line-height: 75px;
+}
+.innerClockPanel2 {
+  display: inline-block;
+  font-family: "Courier New", "Courier", Monospace;
+  font-size: 24px;
+  height: 75px;
+  margin: 0 auto;
+  line-height: 75px;
+
+}
+.timePanel {
+  font-family: "Courier New", "Courier", Monospace;
+  font-size: 50px;
+  display: inline-block;
+  height: 75px;
+  background-color: var(--DK4);
+  color: var(--consoleGreen);
+  border-style: solid;
+  border-width: 1px;
+  border-color: var(--consoleGreen);
+  line-height: 75px;
+}
+
+.infoPanel {
+  display: block;
+  padding: 8px 4px 8px 4px;
+  background-color: var(--LT2);
+  min-height: 100px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: var(--DK4);
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+.taskPanel {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 8px 4px 8px 4px;
+  background-color: var(--LT2);
+  min-height: 100px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: var(--DK4);
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+.taskButton {
+	display: inline;
+	padding: 4px;
+	background-color: var(--LT1);
+	height: 50px;
+	min-width: 150px;
+	border-radius: 2px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: var(--DK4);
+}
+.activeTaskButton {
+  background-color: var(--engDK);
+  border-color: var(--engLT);
+  color: var(--engLT);
+}
+.activeUtilButton {
+  background-color: var(--engDK);
+  border-color: var(--engLT);
+  color: var(--engLT);
+}
+.utilButton {
+	display: inline;
+	padding: 4px;
+	background-color: var(--LT4);
+	height: 25px;
+	min-width: 150px;
+	border-radius: 2px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: var(--DK4);
+}
+
+
+.taskStatLineDiv {
+  border-style: solid;
+  border-width: 1px;
+  border-color: var(--DK2);
+  display: flex;
+  flex-wrap: wrap;
+  background-color: var(--LT2);
+  color: var(--DK4);
+}
+.taskStatLineNameEntry{
+  
+}
+.logTaskEntryTime {
+  background-color: "white";
+  color: var(--DK4);
+}

@@ -33,7 +33,7 @@ var addTaskLine = function(taskStat){
 	var ddlab = document.createElement("div");
 	ddlab.classList.add("taskStatLineNameEntry");
 	ddlab.textContent = taskStat.taskName;
-	var ddn = document.createElement("input");
+	var ddn = document.createElement("button");
 	ddn.classList.add("logTaskEntryTime")
 	ddn.value = getElapsedTimeString(taskStat.elapsedTime);
 	ddn.savedValue = ddn.value;

@@ -32,28 +32,40 @@ var addTaskLine = function(taskStat){
 	dd.classList.add("taskStatLineDiv");
 	var ddlab = document.createElement("div");
 	ddlab.classList.add("taskStatLineNameEntry");
+	ddlab.classList.add("logTaskEntryElement");
 	ddlab.textContent = taskStat.taskName;
-	var ddn = document.createElement("button");
+	var ddn = document.createElement("div");
 	ddn.classList.add("logTaskEntryTime")
-	ddn.value = getElapsedTimeString(taskStat.elapsedTime);
-	ddn.savedValue = ddn.value;
+	ddn.classList.add("logTaskEntryElement");
+	ddn.textContent = getElapsedTimeString(taskStat.elapsedTime);
+	ddn.savedValue = ddn.textContent;
+	var ddb = document.createElement("button");
+	ddb.classList.add("logTaskEditButton");
+	ddb.classList.add("logTaskEntryElement");
+	ddb.textContent = "EDIT";
+	var ddt = document.createElement("div");
+	ddt.classList.add("logTaskEntryNotes");
+	ddt.classList.add("logTaskEntryElement");
+	ddt.textContent = "...";
 	dd.appendChild(ddlab);
 	dd.appendChild(ddn);
+	dd.appendChild(ddb);
+	dd.ddn = ddn;
 	document.getElementById("INFOPANEL").appendChild(dd);
 	dd.taskStat = taskStat;
-	ddn.onchange = function(){
+	//ddn.onclick = function(){
 		//error check, push result!
-		vvs = this.value;
+		/*vvs = this.textContent;
 		vvstr = formatInputTime(vvs);
 		if(vvstr == -1){
 			console.log("ERROR: malformatted input time!");
-			this.value = this.savedValue;
+			this.textContent = this.savedValue;
 		} else {
-			this.value = vvstr;
+			this.textContent = vvstr;
 			this.savedValue = vvstr;
 			this.parentElement.taskStat.elapsedTime = parseInputTime(vvstr);
-		}
-	}
+		}*/
+	//}
 }
 
 var logTask = function(taskStat){
@@ -69,19 +81,28 @@ var logTask = function(taskStat){
 			lastDiv.taskStat.elapsedTime = lastDiv.taskStat.elapsedTime + taskStat.elapsedTime;
 			lastDiv.taskStat.endTime = taskStat.endTime;
 			taskStatLog[taskStatLog.length - 1] = lastDiv.taskStat;
-			lastDiv.getElementsByClassName("logTaskEntryTime")[0].value = getElapsedTimeString(lastDiv.taskStat.elapsedTime); 
+			lastDiv.getElementsByClassName("logTaskEntryTime")[0].textContent = getElapsedTimeString(lastDiv.taskStat.elapsedTime); 
 		} else {
 			addTaskLine(taskStat);
 			taskStatLog.push(taskStat);
 		}
 	}
+	saveCurrLog();
+}
+
+function writeTasksToTable( taskStatList ){
+	
+}
+function readTasksFromTable( tableString) {
+	
 }
 
 var makeTaskStat = function(taskButton){
 	var out = { startTime : taskButton.startTime,
 	         endTime: taskButton.endTime,
 			 elapsedTime: taskButton.elapsedTime,
-	         taskName: taskButton.taskName }
+	         taskName: taskButton.taskName,
+             notes: ""			 }
 	return out;
 }
 
@@ -231,9 +252,36 @@ function loadSavedTaskSet(){
 	}
 }
 
-function saveTodaysLog(){
-	//taskStatLog
+function getCurrentLogList(){
+	var ddlist = document.getElementsByClassName("taskStatLineDiv");
+	var saveTaskLog = []
+	for( dd of ddlist ){
+		saveTaskLog.push( dd.taskStat );
+	}
+	return saveTaskLog;
 }
+
+function saveCurrLog(){
+	//taskStatLog
+    var saveTaskLog = getCurrentLogList();
+	var obj = { TASKLOG : saveTaskLog }
+	localStorage.setItem("CURRTASKLOG.json",JSON.stringify(obj));
+}
+
+function loadCurrLog(){
+	clearCurrLog();
+	var taskLogList = JSON.parse(localStorage.getItem("CURRTASKLOG.json")).TASKLOG;
+	for( ts of taskLogList ){
+		addTaskLine(ts);
+	}
+}
+function clearCurrLog(){
+	var ddlist = document.getElementsByClassName("taskStatLineDiv");
+	for( dd of ddlist ){
+		dd.parentElement.removeChild( dd );
+	}
+}
+
 
 function formatAMPM(date) {
   var hours = date.getHours();
@@ -267,7 +315,15 @@ function displayElapsed(t){
 	var estring = getElapsedTimeString(t);
 	document.getElementById("TASKTIMER").textContent = estring;
 }
-
+function getTripleFromDate( d ){
+	return [ d.getFullYear(), d.getMonth(), d.getDate() ] ;
+}
+function getStringFromTriple( d ){
+	return d[0] + "."+(d[1]+"").padStart(2,"0") +"."+(d[2]+"").padStart(2,"0") ;
+}
+function getStringFromDate(d){
+	return getStringFromTriple(getTripleFromDate(d));
+}
 
 function TICK_runFastTick(){
    if(taskIsActive && (! taskIsPaused)){
@@ -275,20 +331,83 @@ function TICK_runFastTick(){
 	   displayElapsed(t);
    }
    document.getElementById("CLOCK").textContent = formatAMPM(new Date());
-
 }
 
 
-window.setInterval(TICK_runFastTick,100);
+function archiveTaskLog( taskStatList ){
+	var currDate = (new Date());
+	var currDateString = getStringFromDate(currDate);
+	var currDateList = [currDate.year,currDate.monthIndex,currDate.day];
+	var taskLogList = JSON.parse(localStorage.getItem("LOGARCHIVE.json"));
+	taskLogList.push(currDateString);
+	localStorage.setItem("LOGARCHIVE.json",JSON.stringify(taskLogList));
+	localStorage.setItem("LOGARCHIVE."+currDateString+".json",JSON.stringify(taskStatList));
+}
+function archiveCurrentTaskLog(){
+	archiveTaskLog( getCurrentLogList() );
+}
+
+function getArchive( fromDate, toDate ){
+	archiveTaskLog( getCurrentLogList() );
+	var s = new Date(fromDate[0],fromDate[1],fromDate[2]);
+	var e = new Date(toDate[0],toDate[1],toDate[2]+1);
+	var taskLogList = JSON.parse(localStorage.getItem("LOGARCHIVE.json"));
+	var outList = [];
+	for( ll of taskLogList ){
+		var d = new Date( ll[0],ll[1],ll[2]);
+		if( s < d && e > d ){
+			var ds = getStringFromDate(d) ;
+			var logpair = { ds : ds, log : JSON.parse(localStorage.getItem("LOGARCHIVE."+ds+".json")) };
+			outList.push( logpair );
+		}
+	}
+	return outList;
+}
+
+
+function downloadArchive( fromDate, toDate ){
+	var aa = getArchive( fromDate, toDate );
+	var out = "date\ttaskName\tstartTime\tendTime\telapsed\tnotes\n";
+	var ss = getStringFromTriple( fromDate ) ;
+	var es = getStringFromTriple( toDate ) ;
+
+	for( a of aa) {
+		var ds = a.ds;
+		for( t of a.log){
+			out = out + ""+ds+"\t"+t.taskName+"\t"+t.startTime+"\t"+t.endTime+"\t"+t.elapsedTime+"\t"+t.notes+"\n";
+		}
+	}
+	download("MayaTimeLog."+ss+"-TO-"+es+".table.txt", out);
+}
+/*
+	var out = { startTime : taskButton.startTime,
+	         endTime: taskButton.endTime,
+			 elapsedTime: taskButton.elapsedTime,
+	         taskName: taskButton.taskName,
+             notes: ""			 }
+*/
+
 
 if( localStorage.getItem("BUTTONSETUP.json") === null ){
 	console.log("No task set found!");
 } else {
 	loadSavedTaskSet()
 }
+if( localStorage.getItem("CURRTASKLOG.json") === null ){
+	console.log("No task set found!");
+} else {
+	loadCurrLog()
+}
+if( localStorage.getItem("LOGARCHIVE.json") === null ){
+	localStorage.setItem("LOGARCHIVE.json",JSON.stringify([]));
+}
 
 function fullReset(){
 	clearTaskLines();
+	clearCurrLog();
 	localStorage.removeItem("BUTTONSETUP.json");
+	localStorage.removeItem("CURRTASKLOG.json");
+
 }
 
+window.setInterval(TICK_runFastTick,250);
